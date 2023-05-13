@@ -40,6 +40,13 @@ namespace CleanArchitecture.Domain.Tests
             action.Should().NotThrow<CleanArchitecture.Domain.Validation.DomainExceptionValidation>();
         }
 
+        [Fact(DisplayName = "Create With Null Image Name")]
+        public void CreateProduct_NullImageName_NoNullReferenceException()
+        {
+            Action action = () => new Product(1, "Product Name", "Product Description", 9.99m, 10, null);
+            action.Should().NotThrow<NullReferenceException>();
+        }
+
         [Fact(DisplayName = "Create With Empty Image Name")]
         public void CreateProduct_EmptyImageName_NoDomainException()
         {
