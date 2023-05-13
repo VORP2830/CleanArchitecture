@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitecture.Infra.Data.Repositories
 {
-    public class ProductRepositoty : IProductRepository
+    public class ProductRepository : IProductRepository
     {
         ApplicationDbContext _ProductContext;
 
-        public ProductRepositoty(ApplicationDbContext context)
+        public ProductRepository(ApplicationDbContext context)
         {
             _ProductContext = context;
         }

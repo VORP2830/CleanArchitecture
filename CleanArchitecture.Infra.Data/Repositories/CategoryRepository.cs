@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitecture.Infra.Data.Repositories
 {
-    public class CategoryRepositoty : ICategoryRepository
+    public class CategoryRepository : ICategoryRepository
     {
         ApplicationDbContext _CategoryContext;
 
-        public CategoryRepositoty(ApplicationDbContext context)
+        public CategoryRepository(ApplicationDbContext context)
         {
             _CategoryContext = context;
         }
