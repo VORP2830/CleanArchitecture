@@ -22,6 +22,8 @@ namespace CleanArchitecture.Infra.IoC
             service.AddScoped<IProductService, ProductService>();
             service.AddScoped<ICategoryService, CategoryService>();
             service.AddAutoMapper(typeof(DomainToDTOMappingProfile));  
+            var myHandlers = AppDomain.CurrentDomain.Load("CleanArchitecture.Application");
+            service.AddMediatR(c => c.RegisterServicesFromAssembly(myHandlers));
             return service;
         }
     }

@@ -1,8 +1,10 @@
 using AutoMapper;
 using CleanArchitecture.Application.DTOs;
 using CleanArchitecture.Application.Interfaces;
+using CleanArchitecture.Application.Products.Queries;
 using CleanArchitecture.Domain.Entities;
 using CleanArchitecture.Domain.Interfaces;
+using MediatR;
 
 namespace CleanArchitecture.Application.Services
 {
@@ -10,11 +12,13 @@ namespace CleanArchitecture.Application.Services
     {
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
 
-        public ProductService(IProductRepository productRepository, IMapper mapper)
+        public ProductService(IProductRepository productRepository, IMapper mapper, IMediator mediator)
         {
             _productRepository = productRepository;
             _mapper = mapper;
+            _mediator = mediator;
         }
         public async Task<ProductDTO> GetById(int id)
         {
@@ -48,6 +52,14 @@ namespace CleanArchitecture.Application.Services
         {
             var productEntity = _mapper.Map<Product>(productDTO);
             await _productRepository.UpdateAsync(productEntity);
+        }
+
+        public async Task<IEnumerable<ProductDTO>> GetProductsMediator()
+        {
+            var productsQuery = new GetProductsQuery();
+            if(productsQuery == null) throw new Exception("Entity could not be loaded");
+            var result = await _mediator.Send(productsQuery);
+            return _mapper.Map<IEnumerable<ProductDTO>>(result);
         }
     }
 }

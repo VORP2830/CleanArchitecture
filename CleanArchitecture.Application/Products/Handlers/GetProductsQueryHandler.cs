@@ -1,6 +1,4 @@
-﻿
-
-using CleanArchitecture.Application.Products.Queries;
+﻿using CleanArchitecture.Application.Products.Queries;
 using CleanArchitecture.Domain.Entities;
 using CleanArchitecture.Domain.Interfaces;
 using MediatR;

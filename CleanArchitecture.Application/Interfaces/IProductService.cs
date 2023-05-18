@@ -10,6 +10,7 @@ namespace CleanArchitecture.Application.Interfaces
         Task Add(ProductDTO productDTO); 
         Task Update(ProductDTO productDTO); 
         Task Remove(int id);
+        Task<IEnumerable<ProductDTO>> GetProductsMediator();
 
     }
 }
