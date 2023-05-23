@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using CleanArchitecture.Domain.Entities;
 
 namespace CleanArchitecture.Application.DTOs
@@ -29,8 +30,9 @@ namespace CleanArchitecture.Application.DTOs
         [MaxLength(250)]
         [DisplayName("Product Image")]
         public string Image { get; set; }
-        public int CategoryId { get; set; }
-        [DisplayName("Category")]
+        [JsonIgnore]
         public Category Category { get; set; }
+        [DisplayName("Category")]
+        public int CategoryId { get; set; }
     }
 }

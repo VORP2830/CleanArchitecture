@@ -12,68 +12,84 @@ namespace CleanArchitecture.API.Controllers
     [Route("api/[controller]")]
     public class CategoriesController : ControllerBase
     {
-    private readonly ICategoryService _categoryService;
-    public CategoriesController(ICategoryService categoryService)
-    {
-        _categoryService = categoryService;
-    }
-    [HttpGet]
-    public async Task<IActionResult> GetCategories()
-    {
-        try
+        private readonly ICategoryService _categoryService;
+        public CategoriesController(ICategoryService categoryService)
         {
-            var categories = await _categoryService.GetCategories();
-            if (categories == null)
+            _categoryService = categoryService;
+        }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategories()
+        {
+            try
             {
-                return NoContent();
+                var categories = await _categoryService.GetCategories();
+                if (categories == null)
+                {
+                    return NoContent();
+                }
+                return Ok(categories);
             }
-            return Ok(categories);
+            catch (System.Exception)
+            {
+                return BadRequest("Erro ao recuperar categorias.");
+            }
         }
-        catch (System.Exception)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategoryById(int id)
         {
-            return BadRequest("Erro ao recuperar categorias.");
+            try
+            {
+                var categories = await _categoryService.GetById(id);
+                if (categories == null)
+                {
+                    return NoContent();
+                }
+                return Ok(categories);
+            }
+            catch (System.Exception)
+            {
+                return BadRequest("Erro ao recuperar categorias.");
+            }
         }
-    }
-    [HttpPost]
-    public async Task<IActionResult> AddCategory(CategoryDTO model)
-    {
-        try
+        [HttpPost]
+        public async Task<IActionResult> AddCategory(CategoryDTO model)
         {
-            await _categoryService.Add(model);
-            return Ok("Categoria adicionado com sucesso");
+            try
+            {
+                await _categoryService.Add(model);
+                return Ok("Categoria adicionado com sucesso");
+            }
+            catch (System.Exception)
+            {
+            return BadRequest("Erro ao tentar adicionar uma categoria");
+            }
         }
-        catch (System.Exception)
-        {
-           return BadRequest("Erro ao tentar adicionar uma categoria");
-        }
-    }
 
-    [HttpPut]
-    public async Task<IActionResult> UpdateCategory(CategoryDTO model)
-    {
-        try
+        [HttpPut]
+        public async Task<IActionResult> UpdateCategory(CategoryDTO model)
         {
-            await _categoryService.Update(model);
-            return Ok("Categoria atualizada com sucesso");
+            try
+            {
+                await _categoryService.Update(model);
+                return Ok("Categoria atualizada com sucesso");
+            }
+            catch (System.Exception)
+            {
+            return BadRequest("Erro ao tentar atualizar categoria");
+            }
         }
-        catch (System.Exception)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCategory(int id)
         {
-           return BadRequest("Erro ao tentar atualizar categoria");
+            try
+            {
+                await _categoryService.Remove(id);
+                return Ok("Categoria excluida com sucesso");
+            }
+            catch (System.Exception)
+            {
+            return BadRequest("Erro ao tentar excluir categoria");
+            }
         }
-    }
-    [HttpDelete]
-    public async Task<IActionResult> DeleteCategory(int id)
-    {
-        try
-        {
-            await _categoryService.Remove(id);
-            return Ok("Categoria excluida com sucesso");
-        }
-        catch (System.Exception)
-        {
-           return BadRequest("Erro ao tentar excluir categoria");
-        }
-    }
-        
     }
 }
